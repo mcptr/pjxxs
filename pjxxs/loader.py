@@ -1,7 +1,8 @@
 import sys
 import os
 import json
-from . import types
+
+from pjxxs import fields
 
 
 __schema_map = dict()
@@ -24,7 +25,7 @@ def load_from_json(ident):
 	data = None
 	with open(path, "r") as fh:
 		data = json.load(fh)
-	schema = types.Schema(
+	schema = fields.Schema(
 		data.get("@id", ident),
 		data.get("@version", 1)
 	)
@@ -53,15 +54,15 @@ def _build_schema(root, data):
 
 def _build_field(k, props):
 	field_type_map = {
-		"Schema" : types.SchemaType,
-		"Object" : types.Object,
-		"Array" : types.Array,
-		"Int" : types.Int,
-		"Double" : types.Double,
-		"String" : types.String,
-		"Enum" : types.Enum,
-		"Bool" : types.Bool,
-		"Null" : types.Null
+		"Schema" : fields.SchemaType,
+		"Object" : fields.Object,
+		"Array" : fields.Array,
+		"Int" : fields.Int,
+		"Double" : fields.Double,
+		"String" : fields.String,
+		"Enum" : fields.Enum,
+		"Bool" : fields.Bool,
+		"Null" : fields.Null
 	}
 
 	dt_map = {
@@ -80,9 +81,9 @@ def _build_field(k, props):
 
 	field = None
 	if props["field_type"].startswith("Schema:"):
-		cls = types.SchemaType
+		cls = fields.SchemaType
 		schema_id = props["field_type"].split(":")[1]
-		field = types.SchemaType(k, schema_id, **props)
+		field = fields.SchemaType(k, schema_id, **props)
 	else:
 		cls = field_type_map[props["field_type"]]
 		field = cls(k, **props)

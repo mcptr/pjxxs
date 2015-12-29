@@ -1,7 +1,7 @@
 import os
 import json
 
-from . import types
+from pjxxs import fields
 
 
 __schemas = dict()
@@ -26,26 +26,26 @@ def from_data(root, data):
 						props["allowed_types"]
 					))
 				field = fld_ctor(k, **props)
-			if isinstance(field, types.Object):
+			if isinstance(field, fields.Object):
 				for sub_k in filter(lambda x: not x.startswith("@"), data[k]):
-					if not isinstance(data[k][sub_k], types.Schema):
+					if not isinstance(data[k][sub_k], fields.Schema):
 						from_data(field, data[k][sub_k])
 			root.add_field(field)
 
 
 def _field_from_string(fld):
 	fldmap = {
-		"Object" : types.Object,
-		"Array" : types.Array,
-		"String" : types.String,
-		"Int" : types.Int,
-		"Bool" : types.Bool,
-		"Enum" : types.Enum,
-		"Numeric" : types.Numeric,
-		"Double" : types.Double,
-		"Time" : types.Time,
-		"Null" : types.Null,
-		"SchemaType" : types.SchemaType
+		"Object" : fields.Object,
+		"Array" : fields.Array,
+		"String" : fields.String,
+		"Int" : fields.Int,
+		"Bool" : fields.Bool,
+		"Enum" : fields.Enum,
+		"Numeric" : fields.Numeric,
+		"Double" : fields.Double,
+		"Time" : fields.Time,
+		"Null" : fields.Null,
+		"SchemaType" : fields.SchemaType
 	}
 	return fldmap[fld]
 
@@ -74,7 +74,7 @@ class JSONSchema(object):
 
 	def __init__(self, path):
 		self.__path = path
-		self._schema_inst = types.Schema(self.ident())
+		self._schema_inst = fields.Schema(self.ident())
 		self.reload()
 
 	def ident(self):
