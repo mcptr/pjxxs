@@ -172,9 +172,15 @@ class Field(object):
 		elif isinstance(v, list) and list not in allowed_types:
 			self._register_error(v, "List not allowed", errors)
 			ok = False
-		elif isinstance(v, dict) and dict not in allowed_types:
-			self._register_error(v, "Object not allowed", errors)
-			ok = False
+		elif isinstance(v, dict):
+			if "@id" in v:
+				ns = "Schema:" + v["@id"]
+				if ns not in allowed_types:
+					self._register_error(v, "Type (%s) not allowed" % v["@id"], errors)
+					ok = False
+			elif dict not in allowed_types:
+				self._register_error(v, "Object not allowed", errors)
+				ok = False
 		if isinstance(v, Schema):
 			found = False
 			for t in allowed_types:
@@ -338,7 +344,16 @@ class Array(ComplexField):
 			for v in value:
 				found = False
 				for t in allowed_types:
-					if isinstance(v, t):
+					if isinstance(t, str):
+						if t.startswith("Schema:"):
+							name = t[t.find(":") + 1:]
+							module_name = name.replace("/", ".")
+							__import__(module_name)
+							schema = sys.modules[module_name].schema
+							if schema.validate(v, errors):
+								found = True
+								break
+					elif isinstance(v, t):
 						found = True
 						break
 				result.append(found)
@@ -562,8 +577,11 @@ class Schema(object):
 			return True
 		result = []
 		for k in sorted(self._content):
-			if not self._content[k].validate(data.get(k, None), ref):
-				result.append(False)
+			if isinstance(data, dict):
+				if not self._content[k].validate(data.get(k, None), ref):
+					result.append(False)
+			elif not self._content[k].validate(data, ref):
+					result.append(False)
 		return len(list(filter(lambda b: not b, result))) == 0
 
 	def _validate_object(self, data, root):
@@ -575,7 +593,7 @@ class Schema(object):
 				result = False
 		return result
 
-	def _validate_array(self, data, root):
+	def _validate_array_UNUSED(self, data, root):
 		if not data and root._required:
 			return False
 		for el in data:

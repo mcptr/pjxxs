@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import argparse
+
+parent_dir = os.path.abspath(
+	os.path.join(os.path.dirname(sys.argv[0]), "..")
+)
+
+sys.path.append(parent_dir)
+
+from lib.parser import db
+from lib.dbmanager import DBManager
+
+parser = argparse.ArgumentParser(parents=[db.parser])
+
+parser.add_argument(
+	"--workdir", "-w",
+	dest="workdir",
+	action="store",
+	help="Base directory",
+	default="workdir",
+)
+
+parser.add_argument(
+	"-a", "--all",
+	help="Populate all datasets",
+	action="store_true",
+	default=False
+)
+
+
+parser.add_argument(
+	"module",
+	help="Dataset to use",
+	nargs="?"
+)
+
+args = parser.parse_args()
+mgr = DBManager(args, parent_dir)
+mgr.populate(args.module, args.all)

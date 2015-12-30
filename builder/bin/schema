@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import argparse
+
+parent_dir = os.path.abspath(
+	os.path.join(os.path.dirname(sys.argv[0]), "..")
+)
+
+sys.path.append(parent_dir)
+
+import lib.environ as environ
+parent_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+environ.set_up(parent_dir)
+
+from lib.parser import schema
+from lib.manager.schema_manager import SchemaManager
+from lib.manager.dbmanager import DBManager
+
+parser = argparse.ArgumentParser(
+	parents=[schema.parser]
+)
+
+parser.add_argument(
+	"--schema", "-S",
+	dest="gen_schema",
+	action="store_true",
+	help="Generate schema json",
+)
+
+parser.add_argument(
+	"--code", "-C",
+	dest="gen_code",
+	action="store_true",
+	help="Generate code mappings from db schema",
+)
+
+dirs = parser.add_argument_group("Directories")
+
+dirs.add_argument(
+	"--workdir", "-w",
+	dest="workdir",
+	action="store",
+	default="workdir",
+	help=(
+		"Base working directory (schema source/output). " +
+		"This will be prepended to any other dirs if specified"
+	)
+)
+
+dirs.add_argument(
+	"--sql-schema-in",
+	dest="sql_schema_in",
+	action="store",
+	default="sql-schema-in",
+	help="SQL schema input files (initdb)"
+)
+
+dirs.add_argument(
+	"--sql-data-in",
+	dest="sql_data_in",
+	action="store",
+	default="sql-data-in",
+	help="SQL data input files (initdb)"
+)
+
+dirs.add_argument(
+	"--schema-in",
+	dest="schema_in",
+	action="store",
+	default="schema-in",
+	help="Schema definition input files"
+)
+
+dirs.add_argument(
+	"--schema-out",
+	dest="schema_out",
+	action="store",
+	default="schema-out",
+	help="Schema output files (generated result)"
+)
+
+dirs.add_argument(
+	"--cxx-out",
+	dest="cxx_out",
+	action="store",
+	default="cxx-out",
+	help="Directory for generated c++ mappings (generated result)"
+)
+
+args = parser.parse_args()
+
+schema_mgr = SchemaManager(args)
+db_mgr = DBManager(args)
+
+if args.gen_schema:
+	schema_mgr.build()
+	db_mgr.generate_schema()
+if args.gen_code:
+	db_mgr.generate_code()

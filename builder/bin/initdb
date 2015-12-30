@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import argparse
+
+parent_dir = os.path.abspath(
+	os.path.join(os.path.dirname(sys.argv[0]), "..")
+)
+
+sys.path.append(parent_dir)
+
+from lib.parser import db
+from lib.dbmanager import DBManager
+
+parser = argparse.ArgumentParser(parents=[db.parser])
+
+
+parser.add_argument(
+	"--workdir", "-w",
+	dest="workdir",
+	action="store",
+	help="Base directory",
+	default="workdir",
+)
+
+parser.add_argument(
+	"--schema", "-s",
+	dest="use_schema",
+	action="store_true",
+	help="Init schema",
+	default=False,
+)
+
+parser.add_argument(
+	"--data", "-d",
+	dest="use_data",
+	action="store_true",
+	help="Use data",
+	default=False,
+)
+
+args = parser.parse_args()
+mgr = DBManager(args, parent_dir)
+mgr.initdb()
