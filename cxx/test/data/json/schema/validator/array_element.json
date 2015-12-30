@@ -1,0 +1,13 @@
+{
+	"@id": "validator/array_element",
+	"@version": 1,
+	"string": {
+		"@properties": {
+			"nullable": false,
+			"allowed_types": [],
+			"allowed_values": ["one", "two"],
+			"field_type": "String",
+			"required": false
+		}
+	}
+}

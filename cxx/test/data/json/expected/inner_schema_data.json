@@ -1,0 +1,8 @@
+{
+   "@id" : "inner",
+   "@version" : 1,
+   "inner_schema_object" : {
+      "inner_object_string" : ""
+   },
+   "inner_schema_string" : ""
+}

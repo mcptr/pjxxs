@@ -1,0 +1,107 @@
+{
+	"@id": "main",
+	"@version": 1,
+	"string": {
+		"@properties": {
+			"nullable": false,
+			"allowed_types": [
+				"str"
+			],
+			"allowed_values": [],
+			"field_type": "String",
+			"required": false
+		}
+	},
+	"int": {
+		"@properties": {
+			"nullable": true,
+			"allowed_types": [
+				"float",
+				"int"
+			],
+			"allowed_values": [],
+			"field_type": "Int",
+			"required": false
+		}
+	},
+	"double": {
+		"@properties": {
+			"nullable": false,
+			"allowed_types": [
+				"float",
+				"int"
+			],
+			"allowed_values": [],
+			"field_type": "Double",
+			"required": false
+		}
+	},
+	"time": {
+		"@properties": {
+			"nullable": true,
+			"allowed_values": [],
+			"field_type": "Time",
+			"required": false
+		}
+	},
+	"bool": {
+		"@properties": {
+			"nullable": true,
+			"allowed_values": [],
+			"field_type": "Bool",
+			"required": false
+		}
+	},
+	"object": {
+		"@properties": {
+			"nullable": false,
+			"allowed_types": [
+				"dict"
+			],
+			"allowed_values": [],
+			"field_type": "Object",
+			"required": false
+		},
+		"inner_string": {
+			"@properties": {
+				"nullable": false,
+				"field_type": "String",
+				"required": false
+			}
+		},
+		"inner_array": {
+			"@properties": {
+				"nullable": false,
+				"allowed_values": [],
+				"field_type": "Array",
+				"required": false
+			}
+		},
+		"inner_schema": {
+			"@properties": {
+				"nullable": false,
+				"field_type": "Schema:inner",
+				"required": false
+			}
+		}
+	},
+	"array": {
+		"@properties": {
+			"nullable": true,
+			"allowed_types": [
+				"str"
+			],
+			"allowed_values": [],
+			"field_type": "Array",
+			"required": false
+		}
+	},
+	"null": {
+		"@properties": {
+			"nullable": true,
+			"allowed_values": [],
+			"field_type": "Null",
+			"required": false
+		}
+	}
+}

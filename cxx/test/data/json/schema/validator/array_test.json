@@ -1,0 +1,15 @@
+{
+	"@id": "validator/array_test",
+	"@version": 1,
+	"elements": {
+		"@properties": {
+			"nullable": false,
+			"allowed_types": [
+				"Schema:validator/array_element"
+			],
+			"allowed_values": [],
+			"field_type": "Array",
+			"required": false
+		}
+	}
+}

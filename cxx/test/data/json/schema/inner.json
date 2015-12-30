@@ -1,0 +1,33 @@
+{
+	"@id": "inner",
+	"@version": 1,
+	"inner_schema_string": {
+		"@properties": {
+			"nullable": false,
+			"allowed_types": [
+				"str"
+			],
+			"allowed_values": [],
+			"field_type": "String",
+			"required": false
+		}
+	},
+	"inner_schema_object": {
+		"@properties": {
+			"nullable": false,
+			"allowed_types": [
+				"dict"
+			],
+			"allowed_values": [],
+			"field_type": "Object",
+			"required": false
+		},
+		"inner_object_string": {
+			"@properties": {
+				"nullable": false,
+				"field_type": "String",
+				"required": false
+			}
+		}
+    }
+}

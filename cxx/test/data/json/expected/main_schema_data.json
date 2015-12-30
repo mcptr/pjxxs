@@ -1,0 +1,23 @@
+{
+   "@id" : "main",
+   "@version" : 1,
+   "array" : null,
+   "bool" : null,
+   "double" : 0,
+   "int" : null,
+   "null" : null,
+   "object" : {
+      "inner_array" : [],
+      "inner_schema" : {
+         "@id" : "inner",
+         "@version" : 1,
+         "inner_schema_object" : {
+            "inner_object_string" : ""
+         },
+         "inner_schema_string" : ""
+      },
+      "inner_string" : ""
+   },
+   "string" : "",
+   "time" : null
+}
